@@ -8,24 +8,30 @@ from typing import Dict
 from config import DATASET_DIR
 
 
-def tree_to_dict(n: ET.Element, ignore_error=True) -> Dict:
-    # call: xml_to_dict(root)
-    if not ignore_error and (len(n.attrib) > 0 or n.tail is not None):
-        raise ValueError("This function does not handle attribution and tail")
-    ans = {}
+def tree_to_dict(n: ET.Element, ans: Dict, ignore_error=False) -> None:
+    child = {}
+    if not ignore_error:
+        if len(n.attrib) > 0:
+            raise ValueError("This function does not process attribution")
+        if not (n.tail is None or n.tail.isspace()):
+            raise ValueError("This function does not process tail")
     for c in n:
-        ans.update(tree_to_dict(c, ignore_error))
-    if not ignore_error and len(ans) != 0 and n.text is not None:
-        raise ValueError("This function does not process text on non-leaf nodes")
-    if len(ans) == 0:  # leaf nodes
-        ans = n.text
-    return {n.tag: ans}
+        tree_to_dict(c, child, ignore_error)
+    if not ignore_error:
+        if len(child) != 0 and not (n.tail is None or n.tail.isspace()):
+            raise ValueError("This function does not process text on non-leaf nodes")
+    if len(child) == 0:  # leaf nodes
+        child = n.text
+    ans[n.tag] = child
 
 
-def xml_to_dict(fname: str, ignore_error=True) -> Dict:
-    tree = ET.parse(fname)  # type: ET.ElementTree
+def xml_to_dict(fpath: str, ignore_error=False) -> Dict:
+    tree = ET.parse(fpath)  # type: ET.ElementTree
     root = tree.getroot()  # type: ET.Element
-    return tree_to_dict(root, ignore_error)
+    fname = os.path.basename(fpath)
+    ans = {"fname": fname}
+    tree_to_dict(root, ans, ignore_error)
+    return ans
 
 
 if __name__ == '__main__':
