@@ -5,7 +5,6 @@
 from xml.etree import ElementTree as ET
 import os
 from typing import Dict
-from config import DATASET_DIR
 
 
 def tree_to_dict(n: ET.Element, ans: Dict, ignore_error=False) -> None:
@@ -29,12 +28,13 @@ def xml_to_dict(fpath: str, ignore_error=False) -> Dict:
     tree = ET.parse(fpath)  # type: ET.ElementTree
     root = tree.getroot()  # type: ET.Element
     fname = os.path.basename(fpath)
-    ans = {"fname": fname}
-    tree_to_dict(root, ans, ignore_error)
+    ans = {"fname": fname, "content": {}}
+    tree_to_dict(root, ans["content"], ignore_error)
     return ans
 
 
 if __name__ == '__main__':
     # test example
+    from config import DATASET_DIR
     example = os.path.join(DATASET_DIR, "Group 570.xml")
     print(xml_to_dict(example))
