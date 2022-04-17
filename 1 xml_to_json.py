@@ -2,7 +2,7 @@
 # Email: hjt_study@qq.com
 # Date:
 
-from preprocessing import xml_to_dict
+from utils import xml_to_dict
 import os
 from collections import defaultdict
 import json
