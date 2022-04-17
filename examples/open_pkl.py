@@ -3,11 +3,10 @@
 # Date: 
 
 from config import PKL_PATH
-import pickle
+from utils import read_from_pickle
 
 if __name__ == '__main__':
-    with open(PKL_PATH, "rb") as f:
-        obj = pickle.load(f)
+    obj = read_from_pickle(PKL_PATH)
     for k in obj.keys():
         print(k, len(obj[k]))
     # Group 783
