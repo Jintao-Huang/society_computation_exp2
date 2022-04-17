@@ -5,7 +5,6 @@
 from config import JSON_PATH, PKL_PATH
 import json
 from typing import Dict
-import os
 import pickle
 
 TO_PKL = False
