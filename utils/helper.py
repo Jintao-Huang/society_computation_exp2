@@ -2,7 +2,7 @@
 # Email: hjt_study@qq.com
 # Date: 
 import pickle
-from typing import Any, List
+from typing import Any, List, Union
 
 
 def read_from_pickle(fpath: str) -> Any:
@@ -18,7 +18,7 @@ def save_to_pickle(obj, fpath: str) -> None:
 from config import G_PKL_PATH, M_PKL_PATH, E_PKL_PATH, R_PKL_PATH
 
 
-def read_GMER(G=False, M=False, E=False, R=False) -> List:
+def read_GMER(G=False, M=False, E=False, R=False) -> Union[List, Any]:
     ans = []
     if G is True:
         ans.append(read_from_pickle(G_PKL_PATH))
