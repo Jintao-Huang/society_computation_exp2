@@ -2,13 +2,14 @@
 # Email: hjt_study@qq.com
 # Date: 
 from config import PKL_PATH
-from utils import read_from_pickle, read_PKL, save_PKL, check_islist
+from utils import read_from_pickle, read_PKL, save_PKL, check_islist, print_dict
 from typing import Dict, List, Callable
 import logging
 
 # intuition: O(N) -> O(1)复杂度
-TASK = {"Post"}
 ALL = {"Pre", "GME", "R", "T", "V", "C", "Post"}
+TASK = ALL
+
 
 def build_idx(D: List, get_item: Callable[[Dict], Dict], id_attr="id"):
     ans = {}
@@ -27,10 +28,14 @@ if "Pre" in TASK:
     obj = read_from_pickle(PKL_PATH)
     for k in obj.keys():
         print(k, len(obj[k]))
-    # Group 783
-    # Memeber 82770
-    # PastEvent 93512
-    # RSVPs 65128
+    print()
+
+"""Out[0]
+Group 783
+Memeber 82770
+PastEvent 93512
+RSVPs 65128
+"""
 
 if "GME" in TASK:
     # 为G, M, E建立索引.
@@ -44,6 +49,7 @@ if "GME" in TASK:
     #
     E = build_idx(obj["PastEvent"], lambda tmp: tmp["content"]["item"])
     save_PKL(E=E)
+    del obj, G, M, E
 
 
 def build_R_idx(R: List):
@@ -66,6 +72,7 @@ if "R" in TASK:
     obj = read_from_pickle(PKL_PATH)
     R = build_R_idx(obj["RSVPs"])
     save_PKL(R=R)
+    del obj, R
 
 
 def build_T_idx(M: Dict, G: Dict):
@@ -103,7 +110,7 @@ def build_VC_idx(DD: List, attr_name):
 
 if "V" in TASK:
     E, R = read_PKL(E=True, R=True)
-    V = build_VC_idx([E, R], "venue")
+    V = build_VC_idx([E, R], "venue")  # E优先
     save_PKL(V=V)
 
 if "C" in TASK:
@@ -116,9 +123,13 @@ if "Post" in TASK:
     G, M, E, R, T, V, C = read_PKL(True, True, True, True, True, True, True)
     for x in [G, M, E, R, T, V, C]:
         print(len(x))
-    # 783
-    # 82770
-    # 93512
-    # 765317
-    # 18114
-    # 14108
+    print()
+"""Out[1]
+783
+82770
+93512
+765317
+18114
+14108
+33
+"""

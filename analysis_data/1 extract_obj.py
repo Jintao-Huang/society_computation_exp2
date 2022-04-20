@@ -37,7 +37,7 @@ from utils import read_PKL, save_PKL, attr_to_bool, attr_to_len, remove_attr, co
     topics_to_idlist, attr_to_id, eventhosts_to_idlist, unzip_attr, print_dict
 
 ALL = {"M", "G", "E", "R", "V"}
-TASK = {"V"}
+TASK = ALL
 
 # M:
 # 1. 'self': remove
@@ -46,9 +46,9 @@ TASK = {"V"}
 # 4. 'topics': List[id]
 if "M" in TASK:
     M = read_PKL(M=True)
-    remove_attr(M, {"self", "name", "id", "link"})
-    attr_to_len(M, {"bio", "other_services"})
-    attr_to_bool(M, {"photo"})
+    remove_attr(M, ["self", "name", "id", "link"])
+    attr_to_len(M, ["bio", "other_services"])
+    attr_to_bool(M, ["photo"])
     topics_to_idlist(M)
     cnt, obj_set = count_key(M)
     print(obj_set)
@@ -64,9 +64,9 @@ if "G" in TASK:
     G = read_PKL(G=True)
     attr_to_id(G, "category")
     attr_to_id(G, "organizer", "member_id")
-    attr_to_len(G, {"description"})
-    attr_to_bool(G, {"group_photo"})
-    remove_attr(G, {"who", "name", "id", "link", "urlname"})
+    attr_to_len(G, ["description"])
+    attr_to_bool(G, ["group_photo"])
+    remove_attr(G, ["who", "name", "id", "link", "urlname"])
     topics_to_idlist(G)
     cnt, obj_set = count_key(G)
     print(obj_set)
@@ -87,9 +87,9 @@ if "E" in TASK:
     attr_to_id(E, "venue", "id")
     attr_to_id(E, "group", "id")
     #
-    attr_to_len(E, {"why", "description", "how_to_find_us"})
-    attr_to_bool(E, {"photo_url"})
-    remove_attr(E, {"event_url", "id", "name"})
+    attr_to_len(E, ["why", "description", "how_to_find_us"])
+    attr_to_bool(E, ["photo_url"])
+    remove_attr(E, ["event_url", "id", "name"])
     #
     cnt, obj_set = count_key(E)
     print(obj_set)
@@ -111,9 +111,9 @@ if "R" in TASK:
     attr_to_id(R, "group", "id")
     attr_to_id(R, "member", "member_id")
     #
-    attr_to_bool(R, {"member_photo"})
-    attr_to_len(R, {"comments"})
-    remove_attr(R, {"rsvp_id"})
+    attr_to_bool(R, ["member_photo"])
+    attr_to_len(R, ["comments"])
+    remove_attr(R, ["rsvp_id"])
     #
     cnt, obj_set = count_key(R)
     print(obj_set)
@@ -122,19 +122,21 @@ if "R" in TASK:
 
 if "V" in TASK:
     V = read_PKL(V=True)
-    remove_attr(V, {"name", "id", "address_1", "address_2", "address_3", "phone", "zip", "id"})
-    attr_to_bool(V, {"repinned"})
+    remove_attr(V, ["name", "id", "address_1", "address_2", "address_3", "phone", "zip", "id"])
+    attr_to_bool(V, ["repinned"])
     #
     cnt, obj_set = count_key(V)
     print(obj_set)
     print_dict(cnt)
     save_PKL(V=V)
 
-"""
+"""Out[0]
 set()
-len(cnt): 13
+len(cnt): 15
 cnt[other_services]=12762
+cnt[has_other_services]=12762
 cnt[bio]=14790
+cnt[has_bio]=14790
 cnt[hometown]=27204
 cnt[topics]=53085
 cnt[photo]=62128
@@ -148,10 +150,11 @@ cnt[visited]=82770
 cnt[lon]=82770
 
 set()
-len(cnt): 16
+len(cnt): 17
 cnt[timezone]=77
 cnt[group_photo]=746
 cnt[description]=776
+cnt[has_description]=776
 cnt[category]=782
 cnt[state]=783
 cnt[rating]=783
@@ -167,9 +170,10 @@ cnt[city]=783
 cnt[lon]=783
 
 set()
-len(cnt): 27
+len(cnt): 30
 cnt[duration]=5180
 cnt[why]=5355
+cnt[has_why]=5355
 cnt[fee_label]=15062
 cnt[fee_accepts]=15062
 cnt[fee_currency]=15062
@@ -179,9 +183,11 @@ cnt[fee_required]=15062
 cnt[rsvp_limit]=26812
 cnt[photo_url]=28450
 cnt[how_to_find_us]=43810
+cnt[has_how_to_find_us]=43810
 cnt[venue]=66179
 cnt[event_hosts]=83430
 cnt[description]=90825
+cnt[has_description]=90825
 cnt[status]=93512
 cnt[maybe_rsvp_count]=93512
 cnt[waitlist_count]=93512
@@ -197,8 +203,9 @@ cnt[rating_average]=93512
 cnt[rating_count]=93512
 
 set()
-len(cnt): 14
+len(cnt): 15
 cnt[comments]=139402
+cnt[has_comments]=139402
 cnt[venue]=545043
 cnt[member_photo]=667529
 cnt[tallies_waitlist]=765316

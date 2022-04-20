@@ -7,14 +7,14 @@
 from typing import Dict
 from utils import read_PKL, count_key, print_dict
 
-ALL = {"M", "G", "E", "R", "T", "V"}
-TASK = {"V"}
+ALL = {"M", "G", "E", "R", "T", "V", "C"}
+TASK = {"C"}
 
 if "M" in TASK:
     M = read_PKL(M=True)  # type: Dict
     cnt, obj_set = count_key(M)
-    print(f"len(M): {len(M)}")
     print(f"obj_set: {obj_set}")
+    print(f"len(M): {len(M)}")
     print_dict(cnt)
 
 """Out[0]. 这里不进行归一化处理. 后面统一处理.
@@ -145,9 +145,7 @@ if "T" in TASK:
     cnt, obj_set = count_key(T)
     print(f"obj_set: {obj_set}")
     print(f"len(T): {len(T)}")
-    for k, v in cnt.items():  # type: str, int
-        print(f"cnt[{k}]={v}")
-    print()
+    print_dict(cnt)
 """Out[4]
 obj_set: set()
 len(T): 18114
@@ -159,12 +157,10 @@ cnt[name]=18114. ignored
 
 if "V" in TASK:
     V = read_PKL(V=True)  # type: Dict
-    cnt, obj_set = count_key(V, {"address_3"})
+    cnt, obj_set = count_key(V)
     print(f"obj_set: {obj_set}")
     print(f"len(V): {len(V)}")
-    for k, v in cnt.items():  # type: str, int
-        print(f"cnt[{k}]={v}")
-    print()
+    print_dict(cnt)
 
 """Out[5]
 obj_set: set()
@@ -183,4 +179,19 @@ cnt[lat]=14108. float
 cnt[repinned]=14108. bool
 cnt[id]=14108. ignored
 cnt[lon]=14108. float
+"""
+
+if "C" in TASK:
+    C = read_PKL(C=True)  # type: Dict
+    cnt, obj_set = count_key(C)
+    print(f"obj_set: {obj_set}")
+    print(f"len(C): {len(C)}")
+    print_dict(cnt)
+"""Out[6]. one hot
+obj_set: set()
+len(C): 33
+len(cnt): 3
+cnt[shortname]=33. ignored
+cnt[id]=33. ignored
+cnt[name]=33. ignored
 """
