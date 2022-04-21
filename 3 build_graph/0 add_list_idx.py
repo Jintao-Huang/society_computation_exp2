@@ -44,8 +44,6 @@ from collections import defaultdict
 from utils import read_PKL, save_PKL
 import logging
 
-TASK = {"2"}
-
 
 def add_list_from_D(SD, add_DD: List, id_attr_names: List, add_attr_name: str):
     # no V
@@ -57,7 +55,7 @@ def add_list_from_D(SD, add_DD: List, id_attr_names: List, add_attr_name: str):
 
     for D, mapper in zip(add_DD, mappers):
         for k, d in D.items():
-            d[add_attr_name] = mapper[k]
+            d[add_attr_name] = list(set(mapper[k]))
 
 
 def add_list_from_R(R, G, M, E):
@@ -77,17 +75,17 @@ def add_list_from_R(R, G, M, E):
         me_mapper[m].append(e)
 
     for k, g in G.items():
-        g["member_list"] = gm_mapper[k]
+        g["member_list"] = list(set(gm_mapper[k]))
 
     for k, m in M.items():
-        m["group_list"] = mg_mapper[k]
-        m["event_list"] = me_mapper[k]
+        m["group_list"] = list(set(mg_mapper[k]))
+        m["event_list"] = list(set(me_mapper[k]))
     for k, e in E.items():
-        e["member_list"] = em_mapper[k]
+        e["member_list"] = list(set(em_mapper[k]))
 
 
 def R_move_to_E(R, E):
-    # find ok.
+    # 产生ok. 不需要跑
     # no_total = set()
     # for k, d in E.items():
     #     r_id_list = d["rsvp_id_list"]
@@ -104,7 +102,8 @@ def R_move_to_E(R, E):
     #                 no.add(k)
     #                 mapper.pop(k)
     #     no_total |= no
-    # print(set(R[next(iter(R))].keys()) - no_total)
+    # ok = set(R[next(iter(R))].keys()) - no_total
+    # print(ok)
 
     ok = {'tallies_yes', 'venue', 'tallies_no', 'tallies_waitlist', 'tallies_maybe'}  # 'event', 'group'
     for k, d in E.items():
@@ -129,11 +128,10 @@ def R_move_to_E(R, E):
                     r.pop(k)
 
 
-if "1" in TASK:
+if __name__ == '__main__':
     G, M, E, R = read_PKL(G=True, M=True, E=True, R=True)
     add_list_from_D(R, [M, G, E], ["member", "group", "event"], "rsvp_id_list")
     R_move_to_E(R, E)
     add_list_from_R(R, G, M, E)
     add_list_from_D(E, [G], ["group"], "event_list")
     save_PKL(G=G, M=M, E=E, R=R)
-

@@ -133,30 +133,31 @@ if "V" in TASK:
 """Out[0]
 set()
 len(cnt): 15
-cnt[other_services]=12762
-cnt[has_other_services]=12762
-cnt[bio]=14790
-cnt[has_bio]=14790
 cnt[hometown]=27204
-cnt[topics]=53085
-cnt[photo]=62128
 cnt[state]=82303
 cnt[country]=82748
 cnt[city]=82748
+cnt[photo]=82770
 cnt[joined]=82770
 cnt[lat]=82770
+cnt[topics]=82770
 cnt[lang]=82770
+cnt[other_services]=82770
 cnt[visited]=82770
 cnt[lon]=82770
+cnt[bio]=82770
+cnt[has_bio]=82770
+cnt[has_other_services]=82770
+
+exist_ok? y/ny
+File exist, covered
 
 set()
 len(cnt): 17
 cnt[timezone]=77
-cnt[group_photo]=746
-cnt[description]=776
-cnt[has_description]=776
 cnt[category]=782
 cnt[state]=783
+cnt[description]=783
 cnt[rating]=783
 cnt[join_mode]=783
 cnt[created]=783
@@ -166,14 +167,17 @@ cnt[topics]=783
 cnt[members]=783
 cnt[country]=783
 cnt[organizer]=783
+cnt[group_photo]=783
 cnt[city]=783
 cnt[lon]=783
+cnt[has_description]=783
+
+exist_ok? y/ny
+File exist, covered
 
 set()
 len(cnt): 30
 cnt[duration]=5180
-cnt[why]=5355
-cnt[has_why]=5355
 cnt[fee_label]=15062
 cnt[fee_accepts]=15062
 cnt[fee_currency]=15062
@@ -181,14 +185,10 @@ cnt[fee_description]=15062
 cnt[fee_amount]=15062
 cnt[fee_required]=15062
 cnt[rsvp_limit]=26812
-cnt[photo_url]=28450
-cnt[how_to_find_us]=43810
-cnt[has_how_to_find_us]=43810
 cnt[venue]=66179
 cnt[event_hosts]=83430
-cnt[description]=90825
-cnt[has_description]=90825
 cnt[status]=93512
+cnt[description]=93512
 cnt[maybe_rsvp_count]=93512
 cnt[waitlist_count]=93512
 cnt[updated]=93512
@@ -199,15 +199,21 @@ cnt[visibility]=93512
 cnt[headcount]=93512
 cnt[utc_offset]=93512
 cnt[time]=93512
+cnt[photo_url]=93512
 cnt[rating_average]=93512
 cnt[rating_count]=93512
+cnt[why]=93512
+cnt[has_why]=93512
+cnt[has_description]=93512
+cnt[how_to_find_us]=93512
+cnt[has_how_to_find_us]=93512
+
+exist_ok? y/ny
+File exist, covered
 
 set()
 len(cnt): 15
-cnt[comments]=139402
-cnt[has_comments]=139402
 cnt[venue]=545043
-cnt[member_photo]=667529
 cnt[tallies_waitlist]=765316
 cnt[tallies_maybe]=765316
 cnt[tallies_no]=765316
@@ -215,17 +221,26 @@ cnt[tallies_yes]=765316
 cnt[response]=765317
 cnt[mtime]=765317
 cnt[event]=765317
+cnt[comments]=765317
 cnt[group]=765317
 cnt[created]=765317
+cnt[member_photo]=765317
 cnt[member]=765317
 cnt[guests]=765317
+cnt[has_comments]=765317
+
+exist_ok? y/ny
+File exist, covered
 
 set()
 len(cnt): 6
-cnt[repinned]=562
 cnt[state]=14089
 cnt[city]=14094
 cnt[country]=14099
 cnt[lat]=14108
+cnt[repinned]=14108
 cnt[lon]=14108
+
+exist_ok? y/ny
+File exist, covered
 """

@@ -44,9 +44,7 @@ def save_PKL(G=None, M=None, E=None, R=None, T=None, V=None, C=None, Dataset=Non
     for D, pkl_path in zip([G, M, E, R, T, V, C, Dataset],
                            [G_PKL_PATH, M_PKL_PATH, E_PKL_PATH, R_PKL_PATH, T_PKL_PATH, V_PKL_PATH, C_PKL_PATH, D_PKL_PATH]):
         if D is not None:
-            if not exist_ok:
-                logging.warning(f"File exist, not covered")
-            else:
+            if exist_ok or not os.path.exists(pkl_path):
                 save_to_pickle(D, pkl_path)
                 print(f"File exist, covered")
     print()

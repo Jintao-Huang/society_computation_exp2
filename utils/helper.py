@@ -14,10 +14,10 @@ def count_key(D: Dict, debug: List[str] = None):
             # Debug
             if debug and k2 in debug:
                 print()
-            if bool(d[k2]) and not isinstance(d[k2], (list, str, int, float)):  # 含bool
+            if d[k2] is not None and not isinstance(d[k2], (list, str, int, float)):  # bool是int的子类
                 obj_set.add(k2)
-            #
-            cnt[k2] += bool(d[k2])  # except None
+            if d[k2] is not None:
+                cnt[k2] += 1  # except None
     cnt = {k: cnt[k] for k in sorted(cnt, key=lambda k: cnt[k])}
     return cnt, obj_set
 
@@ -106,7 +106,7 @@ def default_using_median(D: Dict, attr_names: List[str]) -> None:
     mapper = defaultdict(list)
     for k, d in D.items():  # type: str, Dict
         for attr_name in attr_names:
-            if attr_name in d:
+            if attr_name in d and d[attr_name] is not None:
                 if isinstance(d[attr_name], (int, str)):
                     d[attr_name] = float(d[attr_name])
                 mapper[attr_name].append(d[attr_name])
@@ -116,7 +116,7 @@ def default_using_median(D: Dict, attr_names: List[str]) -> None:
 
     for k, d in D.items():  # type: str, Dict
         for attr_name in attr_names:
-            if attr_name not in d:
+            if attr_name not in d or d[attr_name] is None:
                 d[attr_name] = median[attr_name]
 
 
@@ -163,17 +163,29 @@ def attr_to_int(D: Dict, attr_names: List[str]) -> None:
                 d[attr_name] -= 1
 
 
-def unzip_attr(D: Dict, attr_name: str, has_attr: bool = False):
+def unzip_attr(D: Dict, attr_name: str):
     for k, d in D.items():  # type: str, Dict
-        if has_attr:
-            if attr_name not in d:
-                d["has_" + attr_name] = False
-            else:
-                d["has_" + attr_name] = True
         if attr_name not in d:
             continue
         attr = d.pop(attr_name)  # type: Dict
         for k2, x in attr.items():
+            d[attr_name + "_" + k2] = x
+
+
+def unzip_venue(D: Dict, V: Dict):
+    attr_name = "venue"
+    for k, d in D.items():  # type: str, Dict
+        if attr_name in d:
+            attr = d.pop(attr_name)  # type: Dict
+        else:
+            attr = None
+        if attr is None:
+            v = {"state": None, "lon": None, "lat": None, "repinned": None, "country": None}
+            d["has_" + attr_name] = False
+        else:
+            v = V[attr]
+            d["has_" + attr_name] = True
+        for k2, x in v.items():
             d[attr_name + "_" + k2] = x
 
 
@@ -213,3 +225,38 @@ def check_data(D: Dict):
     print(attrs)
     print()
 
+
+def move_E_to_G(E, G, attr_names):
+    ge_mapper = defaultdict(lambda: defaultdict(list))
+    for k, e in E.items():
+        g_id = e["group"]
+        for attr_name in attr_names:
+            ge_mapper[g_id][attr_name].append(e[attr_name])
+    for k, g in G.items():
+        v = ge_mapper[k]
+        for k2, v2 in v.items():
+            if len(v2) == 0:
+                v[k2] = 0
+            else:
+                v[k2] = sum(v2) / len(v2)
+            if k2 in g:
+                logging.warning("...")
+            g[k2] = v[k2]
+
+
+def handle_organizer_event_hosts(M, G, E):
+    is_organizer = defaultdict(int)
+    is_event_hosts = defaultdict(int)
+    for k, g in G.items():
+        organizer = g["organizer"]
+        is_organizer[organizer] += 1
+    for k, e in E.items():
+        if 'event_hosts' not in e:
+            event_hosts = []
+        else:
+            event_hosts = e["event_hosts"]
+        for eh in event_hosts:
+            is_event_hosts[eh] += 1
+    for k, m in M.items():
+        m["is_organizer"] = is_organizer[k]
+        m["is_event_hosts"] = is_event_hosts[k]

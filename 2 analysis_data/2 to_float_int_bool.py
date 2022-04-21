@@ -58,7 +58,6 @@ if "V" in TASK:
     attr_to_int(V, ["state", "city", "country"])
     save_PKL(V=V)
 
-
 """Out[0]
 hometown: 5220, remove
 state: 91
