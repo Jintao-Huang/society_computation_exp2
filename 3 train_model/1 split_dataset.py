@@ -14,7 +14,8 @@ from typing import List, Tuple
 def split_dataset(E, k: float) -> Tuple[List, List]:
     n_test = int(len(E) * k)
     keys = list(E.keys())
-    keys = sorted(keys, key=lambda key: (E[key]["created_year"], E[key]["created_month"], E[key]["created_day"]))
+    # keys = sorted(keys, key=lambda key: (E[key]["created_y"], E[key]["created_m"], E[key]["created_d"]))
+    random.shuffle(keys)
     train_keys, test_keys = keys[:-n_test], keys[-n_test:]
     return train_keys, test_keys  # E
 
@@ -22,7 +23,7 @@ def split_dataset(E, k: float) -> Tuple[List, List]:
 from utils import read_PKL
 
 
-def sample_dataset(train_e: List, test_e: List, E, R):
+def sample_dataset(train_e: List, test_e: List, E, G, R):
     # return X_train, y_train, X_test, y_test
     random.seed(42)
     cnt = 0
@@ -31,7 +32,8 @@ def sample_dataset(train_e: List, test_e: List, E, R):
         for k in e_list:
             e = E[k]
             m_list = []
-            for r_id in e["rsvp_id_list"]:
+            rsvp_id_list = e["rsvp_id_list"]
+            for r_id in rsvp_id_list:
                 r = R[r_id]
                 response = r["response"]  # 0: no, 1: yes
                 if response > 1:
@@ -40,6 +42,7 @@ def sample_dataset(train_e: List, test_e: List, E, R):
                 m_list.append(r["member"])
                 y.append(response)
             X += [[k, m] for m in m_list]  # [E, M] pair
+
     print(cnt)
     return X_train, y_train, X_test, y_test
 
@@ -51,17 +54,14 @@ if __name__ == '__main__':
 
     G, M, E, R = read_PKL(G=True, M=True, E=True, R=True)
     train_e, test_e = split_dataset(E, 0.2)
-    X_train, y_train, X_test, y_test = sample_dataset(train_e, test_e, E,R)
+    X_train, y_train, X_test, y_test = sample_dataset(train_e, test_e, E, G, R)
     print(len(X_train), len(X_test))
     print(np.mean(y_train))
     print(np.mean(y_test))
     save_PKL(Dataset=(X_train, y_train, X_test, y_test))
 """
-6668
-567468 191181
-0.5656371813036154
-0.6059074908071409
-exist_ok? y/ny
-File exist, covered
-
+2032
+1040443 267470
+0.19089080324438726
+0.2263431412868733
 """

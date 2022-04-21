@@ -36,9 +36,9 @@ G, M, E, Dataset = read_PKL(G=True, M=True, E=True, Dataset=True)
 # *_rsvp_count, rating, tallies. 不能违背因果关系: rsvp_count; rating(评分要后面才会出现)
 E_features = [
     "description", "why", "has_why", "has_description", "how_to_find_us", "has_how_to_find_us",
-    *["updated" + s for s in ["_y", "_m", "_d", "_yd", "_wd"]],
-    *["created" + s for s in ["_y", "_m", "_d", "_yd", "_wd"]],
-    *["time" + s for s in ["_y", "_m", "_d", "_yd", "_wd"]],
+    *["updated" + s for s in ["_m", "_d", "_yd", "_wd"]],
+    *["created" + s for s in ["_m", "_d", "_yd", "_wd"]],
+    *["time" + s for s in ["_m", "_d", "_yd", "_wd"]],
     "duration", "utc_offset",
     "photo_url",
     "rsvp_limit",
@@ -93,38 +93,5 @@ imp = [imp[i] for i in idxs]
 for cn, x in zip(class_name, imp):
     print(cn, x)
 """
-0.5396629712872326
-(array([0.95999833, 0.50540316]), array([0.99632253, 0.08300341]), array([0.9778232 , 0.14258912]), array([161796,   7325], dtype=int64))
-(0.7327007456445931, 0.5396629712872326, 0.5602061612758689, None)
-0.9567646832741056
-29 29
-country 0.0005917733880061721
-fee_currency 0.0008774542742347044
-lang 0.0008882120631961317
-fee_required 0.001846185216982206
-duration 0.0018481249321648276
-has_description 0.0019314753369072592
-has_why 0.0028286836431251398
-fee_accepts 0.003463550454386383
-has_bio 0.00440261462509534
-has_other_services 0.006723542648211703
-why 0.00742683340341969
-has_how_to_find_us 0.008684062893890397
-photo_url 0.009030855313167645
-photo 0.009032590271213203
-utc_offset 0.011852507388576556
-other_services 0.012345678936938987
-fee_amount 0.01235139012398252
-state 0.014043797433401495
-rsvp_limit 0.029216813169256124
-bio 0.030344399401460005
-how_to_find_us 0.040477456130170106
-lat 0.07620078708997281
-lon 0.07884460701653082
-description 0.09060673175946057
-created 0.09697440058167026
-updated 0.09877102284585677
-time 0.09986146784422566
-visited 0.11504677389766271
-joined 0.13348620791683374
+
 """
