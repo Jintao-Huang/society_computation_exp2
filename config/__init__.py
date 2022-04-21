@@ -23,6 +23,8 @@ _R_PKL_FNAME = "dataset/r.pkl"
 _T_PKL_FNAME = "dataset/t.pkl"
 _V_PKL_FNAME = "dataset/v.pkl"
 _C_PKL_FNAME = "dataset/c.pkl"
+_D_PKL_FNAME = "dataset/d.pkl"
+
 G_PKL_PATH = os.path.join(_ROOT_DIR, _G_PKL_FNAME)
 M_PKL_PATH = os.path.join(_ROOT_DIR, _M_PKL_FNAME)
 E_PKL_PATH = os.path.join(_ROOT_DIR, _E_PKL_FNAME)
@@ -30,3 +32,4 @@ R_PKL_PATH = os.path.join(_ROOT_DIR, _R_PKL_FNAME)
 T_PKL_PATH = os.path.join(_ROOT_DIR, _T_PKL_FNAME)
 V_PKL_PATH = os.path.join(_ROOT_DIR, _V_PKL_FNAME)
 C_PKL_PATH = os.path.join(_ROOT_DIR, _C_PKL_FNAME)
+D_PKL_PATH = os.path.join(_ROOT_DIR, _D_PKL_FNAME)

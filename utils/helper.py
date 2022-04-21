@@ -163,14 +163,15 @@ def attr_to_int(D: Dict, attr_names: List[str]) -> None:
                 d[attr_name] -= 1
 
 
-def unzip_attr(D: Dict, attr_name: str, has_attr: bool):
+def unzip_attr(D: Dict, attr_name: str, has_attr: bool = False):
     for k, d in D.items():  # type: str, Dict
-        if attr_name not in d:
-            if has_attr:
-                d["has_" + attr_name] = False
-            continue
         if has_attr:
-            d["has_" + attr_name] = True
+            if attr_name not in d:
+                d["has_" + attr_name] = False
+            else:
+                d["has_" + attr_name] = True
+        if attr_name not in d:
+            continue
         attr = d.pop(attr_name)  # type: Dict
         for k2, x in attr.items():
             d[attr_name + "_" + k2] = x
@@ -210,8 +211,5 @@ def check_data(D: Dict):
 
     print(keys)
     print(attrs)
+    print()
 
-
-def is_same_type(D: Dict):
-    for k, d in D.items():  # type: str, Dict
-        pass
