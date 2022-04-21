@@ -260,3 +260,22 @@ def handle_organizer_event_hosts(M, G, E):
     for k, m in M.items():
         m["is_organizer"] = is_organizer[k]
         m["is_event_hosts"] = is_event_hosts[k]
+
+
+import time
+
+
+def convert_datetime(D: Dict, attr_names: List[str]) -> None:
+    for k, d in D.items():  # type: str, Dict
+        for attr_name in attr_names:
+            if attr_name in d:
+                lt = time.localtime(int(d[attr_name] / 1000))
+                y, m, day, yd, wd = lt.tm_year, lt.tm_mon, lt.tm_mday, lt.tm_yday, lt.tm_wday
+                d.pop(attr_name)
+                d[attr_name + "_y"] = y
+                d[attr_name + "_m"] = m
+                d[attr_name + "_d"] = day
+                d[attr_name + "_yd"] = yd
+                d[attr_name + "_wd"] = wd
+            else:
+                print()

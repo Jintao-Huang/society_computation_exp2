@@ -8,15 +8,16 @@ from utils import attr_to_bool, attr_to_float, attr_to_len, \
 # 一些杂工作
 if __name__ == '__main__':
     G, M, E, V = read_PKL(G=True, M=True, E=True, V=True)
-    # organizer_event_hosts
-    handle_organizer_event_hosts(M, G, E)
-    attr_to_bool(G, ["organizer"])
-    attr_to_len(E, ["event_hosts"])
-    # venue in E
+
+    # add venue in E
     unzip_venue(E, V)
     attr_names = ["state", "lon", "lat", "repinned", "country"]
     attr_names = ["venue_" + attr_name for attr_name in attr_names]
     default_using_median(E, attr_names)
+    # add organizer_event_hosts
+    handle_organizer_event_hosts(M, G, E)
+    attr_to_bool(G, ["organizer"])
+    attr_to_len(E, ["event_hosts"])
     # G
     attr_to_len(G, ["rsvp_id_list", "member_list", "event_list"])
     # E
