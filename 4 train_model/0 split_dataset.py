@@ -14,8 +14,8 @@ from typing import List, Tuple
 def split_dataset(E, k: float) -> Tuple[List, List]:
     n_test = int(len(E) * k)
     keys = list(E.keys())
-    # keys = sorted(keys, key=lambda key: (E[key]["created_y"], E[key]["created_m"], E[key]["created_d"]))
-    random.shuffle(keys)
+    keys = sorted(keys, key=lambda key: (E[key]["created_y"], E[key]["created_m"], E[key]["created_d"]))
+    # random.shuffle(keys)
     train_keys, test_keys = keys[:-n_test], keys[-n_test:]
     return train_keys, test_keys  # E
 
